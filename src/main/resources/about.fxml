@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="About"
+      prefHeight="400.0"
+      prefWidth="300.0"
+      fx:id="aboutScene"
+      stylesheets="@mint.css"
+      alignment="CENTER">
+
+    <Label text="Cross-platform file manager."/>
+    <Label text="Islamov, MOIS-91"/>
+    <Label fx:id="osLabel"/>
+    <Region maxHeight="Infinity"
+            VBox.vgrow="ALWAYS"/>
+    <Label text="Rename log file: "/>
+    <HBox spacing="7.0">
+        <TextField promptText="log-file name"
+                   fx:id="logFileNameTextField"
+                   HBox.hgrow="ALWAYS"
+                   VBox.vgrow="ALWAYS"/>
+        <Button text="Save"
+                onAction="#saveLogFileName"
+                focusTraversable="false"
+                maxWidth="Infinity"
+                HBox.hgrow="ALWAYS"
+                VBox.vgrow="ALWAYS"/>
+    </HBox>
+    <Region maxHeight="Infinity"
+            VBox.vgrow="ALWAYS"/>
+    <HBox>
+        <VBox spacing="4.0">
+            <Label text="Theme selection: "/>
+            <RadioButton text="Mint"
+                         onAction="#mintThemeButtonAction"
+                         fx:id="mintButton"/>
+            <RadioButton text="Dark"
+                         onAction="#darkThemeButtonAction"
+                         fx:id="darkButton"/>
+            <RadioButton text="Orange"
+                         onAction="#orangeThemeButtonAction"
+                         fx:id="orangeButton"/>
+        </VBox>
+        <Region maxWidth="Infinity"
+                HBox.hgrow="ALWAYS"/>
+        <VBox spacing="4.0">
+            <Label text="Just"/>
+            <Label text="Labels"/>
+            <Label/>
+            <Label/>
+            <Label text=";)"/>
+            <padding>
+                <Insets right="12.0"/>
+            </padding>
+        </VBox>
+    </HBox>
+    <Region maxHeight="Infinity"
+            VBox.vgrow="ALWAYS"/>
+    <Button focusTraversable="false"
+            maxWidth="Infinity"/>
+    <padding>
+        <Insets top="20.0"
+                left="20.0"
+                bottom="20.0"
+                right="20.0"/>
+    </padding>
+</VBox>

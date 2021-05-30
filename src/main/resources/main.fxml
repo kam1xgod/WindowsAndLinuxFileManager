@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.sun.javafx.scene.control.skin.EmbeddedTextContextMenuContent?>
+<VBox alignment="center"
+      stylesheets="@mint.css"
+      xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller"
+      fx:id="primaryStage">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="Refresh"
+                      onAction="#buttonRefreshAction"/>
+            <MenuItem text="Exit"
+                      onAction="#buttonExitAction" />
+        </Menu>
+        <Menu text="Edit">
+            <MenuItem text="Copy"
+                      onAction="#buttonCopyAction"/>
+            <MenuItem text="Move"
+                      onAction="#buttonMoveAction"/>
+            <MenuItem text="Delete"
+                      onAction="#buttonDeleteAction"/>
+            <MenuItem text="Full delete"
+                      onAction="#buttonFullDeleteAction"/>
+        </Menu>
+        <Menu text="Help">
+            <MenuItem text="About"
+                      onAction="#buttonAboutAction"
+                      fx:id="buttonAbout"/>
+            <MenuItem text="Main Functional"
+                      onAction="#buttonMainFuncAction"/>
+        </Menu>
+    </MenuBar>
+    <HBox spacing="5"
+          VBox.vgrow="ALWAYS">
+        <VBox HBox.hgrow="ALWAYS">
+            <HBox spacing="5"
+                  HBox.hgrow="ALWAYS"
+                  alignment="CENTER">
+                <Button focusTraversable="false"
+                        maxWidth="Infinity"
+                        HBox.hgrow="ALWAYS"
+                        text="Open"
+                        onAction="#buttonOpenAction" />
+                <Button focusTraversable="false"
+                        maxWidth="Infinity"
+                        HBox.hgrow="ALWAYS"
+                        text="Copy"
+                        onAction="#buttonCopyAction"/>
+                <Button focusTraversable="false"
+                        maxWidth="Infinity"
+                        HBox.hgrow="ALWAYS"
+                        text="Move"
+                        onAction="#buttonMoveAction"/>
+                <Button focusTraversable="false"
+                        maxWidth="Infinity"
+                        HBox.hgrow="ALWAYS"
+                        text="Delete"
+                        onAction="#buttonDeleteAction"/>
+                <Button focusTraversable="false"
+                        maxWidth="Infinity"
+                        HBox.hgrow="ALWAYS"
+                        text="Full delete"
+                        onAction="#buttonFullDeleteAction"/>
+                <padding>
+                    <Insets left="5.0"
+                            right="5.0"/>
+                </padding>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS"
+                  HBox.hgrow="ALWAYS">
+                <fx:include fx:id="leftTable"
+                            source="panel.fxml"
+                            HBox.hgrow="ALWAYS"
+                            VBox.vgrow="ALWAYS"/>
+                <VBox spacing="5.0">
+                    <fx:include fx:id="driverSelection"
+                                source="driveSelection.fxml"
+                                HBox.hgrow="ALWAYS"
+                                VBox.vgrow="ALWAYS"/>
+                    <VBox spacing="5.0">
+                        <Button text="cmd/terminal"
+                                VBox.vgrow="ALWAYS"
+                                HBox.hgrow="ALWAYS"
+                                maxWidth="Infinity"
+                                fx:id="commandLineButton"
+                                onAction="#cmdButtonAction"/>
+                        <Button text="calculator"
+                                VBox.vgrow="ALWAYS"
+                                HBox.hgrow="ALWAYS"
+                                maxWidth="Infinity"
+                                fx:id="calcButton"
+                                onAction="#calcButtonAction"/>
+                        <padding>
+                            <Insets bottom="16.0"
+                                    top="16.0"/>
+                        </padding>
+                    </VBox>
+                </VBox>
+                <fx:include fx:id="rightTable"
+                            source="panel.fxml"
+                            HBox.hgrow="ALWAYS"
+                            VBox.vgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+        <padding>
+            <Insets bottom="5.0"
+                    left="5.0"
+                    right="5.0"
+                    top="5.0" />
+        </padding>
+    </HBox>
+</VBox>
