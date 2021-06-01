@@ -1,9 +1,7 @@
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,13 +43,9 @@ public class DriveSelectionController implements Initializable {
                 for (Path drive : Files.list(Paths.get("/media/").toAbsolutePath().normalize()).toArray(size -> new Path[size])) {
                     drivesListView.getItems().add(drive.toString()); //adding them in list.
                 }
-            } catch (IOException exception) {}
+            } catch (IOException exception) {} // that's okay.
         }
     }
-
-    public List<File> getDrives() {
-        return drivesListView.getItems();
-    } //get all drives.
 
     public Path getCurDrive() { //get current selected drive.
         if(!drivesListView.getSelectionModel().getSelectedItem().toString().equals("Root")) {

@@ -1,5 +1,4 @@
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -418,7 +417,7 @@ public class Controller extends Thread implements Initializable {
     public void buttonAboutAction() { //Menu button "About".
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/about.fxml")); //creating new scene from .fxml file.
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             aboutStage = new Stage();
             aboutStage.setScene(new Scene(root));
             aboutStage.setTitle("About");

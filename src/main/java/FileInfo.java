@@ -1,14 +1,12 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 public class FileInfo {
     public enum FileType {
-        FILE("F"), DIRECTORY("D"), TRASH("T"); //declaring file types. is it folder, file or trash?
+        FILE("F"), DIRECTORY("D"); //declaring file types. is it folder, file or trash?
 
         private String name;
 
@@ -25,22 +23,6 @@ public class FileInfo {
     private FileType type;
     private long size;
     private LocalDateTime lastModified;
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void setType(FileType type) {
-        this.type = type;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
-    }
-
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
 
     public String getFileName() {
         return fileName;

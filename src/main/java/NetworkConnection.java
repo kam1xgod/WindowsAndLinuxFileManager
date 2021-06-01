@@ -14,7 +14,7 @@ public abstract class NetworkConnection {
         connThread.setDaemon(true); //setting thread to daemon-thread. background thread that support basic threads.
     }
 
-    public void startConnection() throws Exception {
+    public void startConnection() {
         connThread.start(); //starting connection thread.
     }
 

@@ -1,11 +1,9 @@
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -33,7 +31,7 @@ public class Main extends Application {
         });
     }
 
-    public void init() throws Exception { //overwrite of initialization method.
+    public void init() { //overwrite of initialization method.
         connection.startConnection();
     }
 
