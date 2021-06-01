@@ -22,7 +22,7 @@ public class WritingMemThread extends Thread {
         try {
             while (!Controller.isCanceled) {
                 semaphore.acquire(); //take a place in semaphore.
-                singleMessage = "m " + df.format(1.0 * (osBean.getTotalSwapSpaceSize() - osBean.getFreeSwapSpaceSize())  / 1024 / 1024  / 1024) +  " GB";
+                singleMessage = "m " + df.format(100.0 * (osBean.getTotalSwapSpaceSize() - osBean.getFreeSwapSpaceSize())  / osBean.getTotalSwapSpaceSize()) +  " %";
                 //getting total swap space and free swap space for calculate used swap space. converting bytes in GB.
                 String finalMessage = singleMessage; //create new final variable. only this type can be used in runnable interface.
                 Main.connection.send(finalMessage); //sending message to client.
