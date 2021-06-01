@@ -1,6 +1,5 @@
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -9,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -28,7 +26,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING; //Copy option for copy algorithm.
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Controller extends Thread implements Initializable {
 
@@ -44,8 +42,11 @@ public class Controller extends Thread implements Initializable {
     public Button commandLineButton;
     public Button calcButton;
     public static boolean isCanceled = false; //bool variable for data transfer threads.
-    private Semaphore sem; //semaphore for synchronised data transfer.
+    public TextField nameTextField;
+    public Button newButton;
+    public Button createButton;
     public static String logFileName = "log.txt"; //string variable for knowing log file name. "log.txt" is a temp (or default) name.
+    boolean isClicked = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,36 +83,42 @@ public class Controller extends Thread implements Initializable {
         //adding context menus for both of tables.
         leftTable.setOnContextMenuRequested(event -> {
             ContextMenu contextMenu = new ContextMenu();
+            MenuItem newMenuItem = new MenuItem("New");
             MenuItem openMenuItem = new MenuItem("Open");
             MenuItem copyMenuItem = new MenuItem("Copy");
             MenuItem moveMenuItem = new MenuItem("Move");
             MenuItem deleteMenuItem = new MenuItem("Delete");
 
-            openMenuItem.setOnAction(event1 -> buttonOpenAction());
-            copyMenuItem.setOnAction(event2 -> buttonCopyAction());
-            moveMenuItem.setOnAction(event3 -> buttonMoveAction());
-            deleteMenuItem.setOnAction(event4 -> buttonDeleteAction());
+            newMenuItem.setOnAction(event1 -> buttonNewAction());
+            openMenuItem.setOnAction(event2 -> buttonOpenAction());
+            copyMenuItem.setOnAction(event3 -> buttonCopyAction());
+            moveMenuItem.setOnAction(event4 -> buttonMoveAction());
+            deleteMenuItem.setOnAction(event5 -> buttonDeleteAction());
 
             contextMenu.getItems().addAll(openMenuItem, copyMenuItem, moveMenuItem, deleteMenuItem);
             PanelController leftPanelController = (PanelController) leftTable.getProperties().get("control");
             leftPanelController.filesTableView.setContextMenu(contextMenu);
+            contextMenu.show(leftTable, event.getScreenX(), event.getScreenY());
         });
 
         rightTable.setOnContextMenuRequested(event -> {
             ContextMenu contextMenu = new ContextMenu();
+            MenuItem newMenuItem = new MenuItem("New");
             MenuItem openMenuItem = new MenuItem("Open");
             MenuItem copyMenuItem = new MenuItem("Copy");
             MenuItem moveMenuItem = new MenuItem("Move");
             MenuItem deleteMenuItem = new MenuItem("Delete");
 
-            openMenuItem.setOnAction(event1 -> buttonOpenAction());
-            copyMenuItem.setOnAction(event2 -> buttonCopyAction());
-            moveMenuItem.setOnAction(event3 -> buttonMoveAction());
-            deleteMenuItem.setOnAction(event4 -> buttonDeleteAction());
+            newMenuItem.setOnAction(event1 -> buttonNewAction());
+            openMenuItem.setOnAction(event2 -> buttonOpenAction());
+            copyMenuItem.setOnAction(event3 -> buttonCopyAction());
+            moveMenuItem.setOnAction(event4 -> buttonMoveAction());
+            deleteMenuItem.setOnAction(event5 -> buttonDeleteAction());
 
             contextMenu.getItems().addAll(openMenuItem, copyMenuItem, moveMenuItem, deleteMenuItem);
             PanelController rightTableController = (PanelController) rightTable.getProperties().get("control");
             rightTableController.filesTableView.setContextMenu(contextMenu);
+            contextMenu.show(rightTable, event.getScreenX(), event.getScreenY());
         });
 
         Main.stage.setOnCloseRequest(event -> Platform.runLater(() -> {
@@ -137,7 +144,7 @@ public class Controller extends Thread implements Initializable {
         //Drive selection item double click.
 
         driveController.drivesListView.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 2) {
+            if (event.getClickCount() == 2) {
                 Path path = driveController.getCurDrive();
                 PanelController leftTableController = (PanelController) leftTable.getProperties().get("control");
                 PanelController rightTableController = (PanelController) rightTable.getProperties().get("control");
@@ -147,7 +154,7 @@ public class Controller extends Thread implements Initializable {
         });
     }
 
-    public void buttonExitAction(ActionEvent actionEvent) {
+    public void buttonExitAction() {
         Platform.exit();
     }
 
@@ -261,13 +268,16 @@ public class Controller extends Thread implements Initializable {
             PanelController rightTableController = (PanelController) rightTable.getProperties().get("control");
 
             PanelController sourceTable = null;
+            PanelController secondTable = null;
 
             if (leftTableController.filesTableView.isFocused()) {
                 sourceTable = leftTableController;
+                secondTable = rightTableController;
             }
 
             if (rightTableController.filesTableView.isFocused()) {
                 sourceTable = rightTableController;
+                secondTable = leftTableController;
             }
 
             if (sourceTable.getSelFileName().equals("System") || sourceTable.getSelFileName().equals("Trash") ||
@@ -283,6 +293,7 @@ public class Controller extends Thread implements Initializable {
             try {
                 Files.move(sourcePath, destPath.resolve(sourcePath.getFileName()), REPLACE_EXISTING);
                 sourceTable.updateTableView(Paths.get(sourceTable.getCurPath()));
+                secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
             } catch (IOException exception) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Unable to move selected file into trash.", ButtonType.OK);
                 alert.showAndWait();
@@ -299,13 +310,16 @@ public class Controller extends Thread implements Initializable {
             PanelController rightTableController = (PanelController) rightTable.getProperties().get("control");
 
             PanelController sourceTable = null;
+            PanelController secondTable = null;
 
             if (leftTableController.filesTableView.isFocused()) {
                 sourceTable = leftTableController;
+                secondTable = rightTableController;
             }
 
             if (rightTableController.filesTableView.isFocused()) {
                 sourceTable = rightTableController;
+                secondTable = leftTableController;
             }
 
             if (sourceTable.getSelFileName().equals("System") || sourceTable.getSelFileName().equals("Trash") ||
@@ -334,6 +348,7 @@ public class Controller extends Thread implements Initializable {
                     }
                 });
                 sourceTable.updateTableView(Paths.get(sourceTable.getCurPath()));
+                secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
             } catch (IOException exception) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Unable to move selected file into trash.", ButtonType.OK);
                 alert.showAndWait();
@@ -417,6 +432,8 @@ public class Controller extends Thread implements Initializable {
     public void buttonMainFuncAction() throws IOException { //Menu button "Main functional.
         //Starting new process from .jar file;
         //Starting threads that will transfer data to subprocess. They're synchronised by semaphore.
+        //semaphore for synchronised data transfer.
+        Semaphore sem;
         if (osType.equals("Windows")) {
             ProcessBuilder pb = new ProcessBuilder("java", "-jar", Paths.get(".").toAbsolutePath().resolve("MainFuncional\\out\\artifacts\\MainFuctional_jar").toString() + "\\MainFuctional.jar");
 
@@ -453,7 +470,7 @@ public class Controller extends Thread implements Initializable {
 
     public void cmdButtonAction() throws IOException { //open cmd or terminal.
         if (osType.equals("Windows")) {
-            BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".",logFileName).toString(), true));
+            BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", logFileName).toString(), true));
             logWriter.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             logWriter.append(" ");
             logWriter.append("cmd.exe");
@@ -462,7 +479,7 @@ public class Controller extends Thread implements Initializable {
             Desktop.getDesktop().open(Paths.get("C:\\WINDOWS\\system32\\cmd.exe").toFile()); //default location of cmd on Windows.
             return;
         }
-        BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".",logFileName).toString(), true));
+        BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", logFileName).toString(), true));
         logWriter.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         logWriter.append(" ");
         logWriter.append("terminal");
@@ -474,7 +491,7 @@ public class Controller extends Thread implements Initializable {
 
     public void calcButtonAction() throws IOException { //open calculator.
         if (osType.equals("Windows")) {
-            BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".",logFileName).toString(), true));
+            BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", logFileName).toString(), true));
             logWriter.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             logWriter.append(" ");
             logWriter.append("calc.exe");
@@ -484,7 +501,7 @@ public class Controller extends Thread implements Initializable {
             return;
         }
 
-        BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".",logFileName).toString(), true));
+        BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", logFileName).toString(), true));
         logWriter.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         logWriter.append(" ");
         logWriter.append("gnome-calculator");
@@ -511,4 +528,86 @@ public class Controller extends Thread implements Initializable {
         staticPrimaryStage.getStylesheets().clear();
         staticPrimaryStage.getStylesheets().add(theme);
     }
+
+    public void buttonNewAction() {
+        if (!isClicked) {
+            nameTextField.setVisible(true);
+            newButton.setText("Cancel");
+            createButton.setVisible(true);
+            isClicked = true;
+
+            return;
+        }
+        nameTextField.setVisible(false);
+        newButton.setText("New");
+        createButton.setVisible(false);
+        isClicked = false;
+    }
+
+    public void createButtonAction() throws IOException {
+        if (nameTextField.getLength() < 1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Insert name, please.", ButtonType.OK);
+            alert.showAndWait();
+        }
+
+        PanelController leftTableController = (PanelController) leftTable.getProperties().get("control");
+        PanelController rightTableController = (PanelController) rightTable.getProperties().get("control");
+        PanelController curTable;
+        PanelController secondTable;
+
+        if (!leftTableController.filesTableView.isFocused() && !rightTableController.filesTableView.isFocused()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "select table first.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+
+        if (leftTableController.filesTableView.isFocused()) {
+            curTable = leftTableController;
+            secondTable = rightTableController;
+            Path path = Paths.get(curTable.getCurPath());
+
+            if (nameTextField.getText().split("\\.").length == 2) {
+                Files.createFile(path).resolve(nameTextField.getText());
+                curTable.updateTableView(path);
+                secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
+                return;
+            }
+
+            Files.createDirectory(path.resolve(nameTextField.getText()));
+            curTable.updateTableView(path);
+            secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
+
+            nameTextField.setVisible(false);
+            newButton.setText("New");
+            createButton.setVisible(false);
+            isClicked = false;
+        }
+
+        if (rightTableController.filesTableView.isFocused()) {
+            curTable = rightTableController;
+            secondTable = leftTableController;
+            Path path = Paths.get(curTable.getCurPath());
+
+            if (nameTextField.getText().split("\\.").length == 2) {
+                Files.createFile(path.resolve(nameTextField.getText()));
+                curTable.updateTableView(path);
+                secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
+                return;
+            }
+
+
+            Files.createDirectory(path.resolve(nameTextField.getText()));
+            curTable.updateTableView(path);
+            secondTable.updateTableView(Paths.get(secondTable.getCurPath()));
+
+            nameTextField.setVisible(false);
+            newButton.setText("New");
+            createButton.setVisible(false);
+            isClicked = false;
+        }
+    }
 }
+
+
+
