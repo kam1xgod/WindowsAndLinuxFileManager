@@ -26,7 +26,6 @@ public class Controller implements Initializable {
     public static Label staticCpuLabel;
     public static Label staticMemLabel;
     public Button saveButton;
-    public Label testLabel;
     public static String logFileName = "log.txt";
 
     @Override
@@ -34,8 +33,6 @@ public class Controller implements Initializable {
         staticCpuLabel = cpuLabel;
         staticMemLabel = memLabel;
         staticTimeLabel = timeLabel;
-
-        testLabel.setText(cpuLabel.getText());
 
         try {
             File fileName = Paths.get(".").toAbsolutePath().getParent().getParent().resolve("saved.txt").toFile();

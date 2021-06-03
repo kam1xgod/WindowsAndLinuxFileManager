@@ -18,9 +18,12 @@
     <Label text="time"
            fx:id="timeLabel"/>
     <Region/>
-    <Label text="testLabel"
-           fx:id="testLabel"/>
     <Button text="Save"
             fx:id="saveButton"
-            onAction="#saveButtonAction"/>
+            onAction="#saveButtonAction"
+            VBox.vgrow="ALWAYS"
+            maxWidth="Infinity"/>
+    <padding>
+        <Insets left="8.0" right="8.0"/>
+    </padding>
 </VBox>
