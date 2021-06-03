@@ -236,7 +236,7 @@ public class Controller extends Thread implements Initializable {
             }
 
             try {
-                BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", "log.txt").toString(), true));
+                BufferedWriter logWriter = new BufferedWriter(new FileWriter(Paths.get(".", logFileName).toString(), true));
                 logWriter.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 logWriter.append(" ");
                 logWriter.append(curTable.filesTableView.getSelectionModel().getSelectedItem().getFileName());

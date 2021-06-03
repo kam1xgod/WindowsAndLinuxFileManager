@@ -27,6 +27,7 @@ public class Controller implements Initializable {
     public static Label staticMemLabel;
     public Button saveButton;
     public static String logFileName = "log.txt";
+    public TextArea errors;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,7 +50,7 @@ public class Controller implements Initializable {
 
     public void saveButtonAction() {
         try {
-            File fileName = Paths.get(".").toAbsolutePath().getParent().getParent().resolve("saved.txt").toFile();
+            File fileName = Paths.get(".").toAbsolutePath().getParent().resolve("saved.txt").toFile();
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String str;
             while ((str = reader.readLine()) != null) {
@@ -61,12 +62,13 @@ public class Controller implements Initializable {
         }
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(logFileName, true));
+            File logFilePath = Paths.get(".").toAbsolutePath().getParent().resolve(logFileName).toFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath, true));
             writer.append(" ");
-            writer.append("Information from Main Functional:");
-            writer.append(cpuLabel.getText());
-            writer.append(memLabel.getText());
-            writer.append(timeLabel.getText());
+            writer.append("Information from Main Functional: \n");
+            writer.append(cpuLabel.getText()).append("\n");
+            writer.append(memLabel.getText()).append("\n");
+            writer.append(timeLabel.getText()).append("\n");
             writer.append("-----------------------------------");
             writer.append("\r\n");
             writer.flush();
