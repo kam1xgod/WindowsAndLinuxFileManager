@@ -17,4 +17,10 @@
            fx:id="memLabel"/>
     <Label text="time"
            fx:id="timeLabel"/>
+    <Region/>
+    <Label text="testLabel"
+           fx:id="testLabel"/>
+    <Button text="Save"
+            fx:id="saveButton"
+            onAction="#saveButtonAction"/>
 </VBox>
