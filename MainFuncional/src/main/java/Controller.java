@@ -68,6 +68,9 @@ public class Controller implements Initializable {
             writer.append(memLabel.getText());
             writer.append(timeLabel.getText());
             writer.append("-----------------------------------");
+            writer.append("\r\n");
+            writer.flush();
+            writer.close();
         } catch (Exception exc) {
             exc.printStackTrace();
         }
