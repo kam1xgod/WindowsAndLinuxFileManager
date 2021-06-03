@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Client extends NetworkConnectionClientSide {
+public class Client extends ClientConnection {
 
     private String ip;
     private int port;

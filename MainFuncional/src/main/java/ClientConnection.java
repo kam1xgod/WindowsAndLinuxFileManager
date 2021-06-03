@@ -5,11 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public abstract class NetworkConnectionClientSide {
+public abstract class ClientConnection {
     private Consumer<Serializable> onReceiveCallBack;
     private ConnectionThread connThread = new ConnectionThread();
 
-    public NetworkConnectionClientSide(Consumer<Serializable> onReceiveCallBack) {
+    public ClientConnection(Consumer<Serializable> onReceiveCallBack) {
         this.onReceiveCallBack = onReceiveCallBack;
         connThread.setDaemon(true);
     }
