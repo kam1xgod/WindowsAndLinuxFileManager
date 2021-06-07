@@ -564,6 +564,16 @@ public class Controller extends Thread implements Initializable {
         if (leftTableController.filesTableView.isFocused()) {
             curTable = leftTableController;
             secondTable = rightTableController;
+
+            if (curTable.filesTableView.getSelectionModel().getSelectedItem() != null) {
+                if (curTable.getSelFileName().equals("System") || curTable.getSelFileName().equals("Trash") ||
+                        curTable.getCurPath().contains("System") || curTable.getCurPath().contains("Trash")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You can't work with this folder.", ButtonType.OK);
+                    alert.showAndWait();
+                    return;
+                }
+            }
+
             Path path = Paths.get(curTable.getCurPath());
 
             if (nameTextField.getText().split("\\.").length == 2) {
@@ -586,6 +596,16 @@ public class Controller extends Thread implements Initializable {
         if (rightTableController.filesTableView.isFocused()) {
             curTable = rightTableController;
             secondTable = leftTableController;
+
+            if (curTable.filesTableView.getSelectionModel().getSelectedItem() != null) {
+                if (curTable.getSelFileName().equals("System") || curTable.getSelFileName().equals("Trash") ||
+                        curTable.getCurPath().contains("System") || curTable.getCurPath().contains("Trash")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You can't work with this folder.", ButtonType.OK);
+                    alert.showAndWait();
+                    return;
+                }
+            }
+
             Path path = Paths.get(curTable.getCurPath());
 
             if (nameTextField.getText().split("\\.").length == 2) {
