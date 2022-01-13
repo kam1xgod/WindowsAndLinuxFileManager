@@ -12,4 +12,9 @@ Just a course work task from my teacher. Nothing personal.
 - Open some programs that are built-in on Windows and Linux with GNOME shell;
 - Open another app that scans info 'bout memory, cpu and current time (i believe);
 - Second app uses semaphore and works in multithreading mode;
-- JavaFX as well.
+
+# What I learned
+- Working with FS in Java;
+- Working with system scaning in Java;
+- JavaFX as well;
+- Semaphores.
