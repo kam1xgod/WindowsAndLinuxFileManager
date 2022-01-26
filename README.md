@@ -26,7 +26,7 @@ My first coursework from university. Subject - Operation Systems and Shells.
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![](./screenshot.png)
 
 ## My process
 
